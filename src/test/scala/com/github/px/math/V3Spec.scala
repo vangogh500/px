@@ -44,4 +44,42 @@ class V3Spec extends FlatSpec {
     assert(v2 * 1 == V3(3.5, 2.0, 1.0))
     assert(v0 * 52 == v0)
   }
+  "doubleintVec3Space" should "produce a correct zero vector" in {
+    val space = implicitly[VectorSpace[Double, V3[Int]]]
+    assert(space.zero == V3(0, 0, 0))
+  }
+  it should "negate vectors" in {
+    val space = implicitly[VectorSpace[Double, V3[Int]]]
+    assert(space.negate(V3(1,0,0)) == V3(-1,0,0))
+    assert(space.negate(V3(-2,3,1)) == V3(2,-3,-1))
+  }
+  it should "add vectors" in {
+    val space = implicitly[VectorSpace[Double, V3[Int]]]
+    assert(space.plus(V3(1,0,0), V3(0,1,1)) == V3(1,1,1))
+    assert(space.plus(V3(1,-2,0), V3(2,1,3)) == V3(3,-1,3))
+  }
+  it should "multiply with a scalar" in {
+    val space = implicitly[VectorSpace[Double, V3[Int]]]
+    assert(space.stimes(2.0, V3(0,3,1)) == V3(0,6,2))
+    assert(space.stimes(2.5, V3(-1,5,0)) == V3(-2,10,0))
+  }
+  "doubledoubleVec3Space" should "produce a correct zero vector" in {
+    val space = implicitly[VectorSpace[Double, V3[Double]]]
+    assert(space.zero == V3(0.0, 0.0, 0.0))
+  }
+  it should "negate vectors" in {
+    val space = implicitly[VectorSpace[Double, V3[Double]]]
+    assert(space.negate(V3(1.02,0.0,0.0)) == V3(-1.02,0.0,0.0))
+    assert(space.negate(V3(-2.2,3.3,1.1)) == V3(2.2,-3.3,-1.1))
+  }
+  it should "add vectors" in {
+    val space = implicitly[VectorSpace[Double, V3[Double]]]
+    assert(space.plus(V3(1.001,0.0,0.0), V3(0.0,1.0,1.0)) == V3(1.001,1,1))
+    assert(space.plus(V3(1.0,-2.21,0.1), V3(2.0,1.0,3.1)) == V3(3.0,-1.21,3.2))
+  }
+  it should "multiply with a scalar" in {
+    val space = implicitly[VectorSpace[Double, V3[Double]]]
+    assert(space.stimes(2.0, V3(0.0,3.1,1.0)) == V3(0.0,6.2,2.0))
+    assert(space.stimes(2.5, V3(-1.0,5.0,0.0)) == V3(-2.5,12.5,0.0))
+  }
 }
