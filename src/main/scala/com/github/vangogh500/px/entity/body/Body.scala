@@ -10,7 +10,8 @@ import math.Vec
 
 /**
  * Body
- * @param attr Set of attributes and attribute types
+ * @param sAttrs Set of scalar attributes
+ * @param vAttrs Set of vector attributes
  */
 case class Body(
   sAttrs: Map[AttrQuality.Scalar, AttrQuantity[Double]],

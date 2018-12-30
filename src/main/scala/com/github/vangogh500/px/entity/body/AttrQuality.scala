@@ -15,8 +15,27 @@ trait AttrQuality
  * Attribute type
  */
 object AttrQuality {
+  /**
+   * Scalar attribute type
+   */
   trait Scalar extends AttrQuality
+  /**
+   * Vector attribute type
+   */
   trait Vector extends AttrQuality
-  case object Mass extends Scalar
-  case object Displacement extends Vector
+  /**
+   * Scalar attribute type
+   */
+  object Scalar {
+    /**
+     *
+     */
+    case object Mass extends Scalar
+  }
+  /**
+   * Vector attribute type
+   */
+  object Vector {
+    case object Displacement extends Vector
+  }
 }
