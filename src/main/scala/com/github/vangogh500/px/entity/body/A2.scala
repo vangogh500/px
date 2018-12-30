@@ -5,7 +5,6 @@
 package com.github.vangogh500
 package entity
 package body
-package attribute
 
 import math.VectorSpace
 
@@ -15,6 +14,6 @@ import math.VectorSpace
  * @param a Attribute value
  * @param d Rate of change of a (da/dt)
  */
-case class A2[T](a: T, d: T)(implicit ev: VectorSpace[Double, T]) extends TimeReducable[A2[T]] {
+case class A2[T](a: T, d: T)(implicit ev: VectorSpace[Double, T]) extends A[A2[T]] {
   def timeReduce(dt: Double): A2[T] = A2(ev.plus(a, ev.stimes(dt, d)), d)
 }

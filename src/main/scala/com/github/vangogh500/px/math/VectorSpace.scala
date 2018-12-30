@@ -35,6 +35,10 @@ trait VectorSpace[F, V] {
   def stimes(a: F, v: V): V
 }
 
+/**
+ * Vector space
+ * @see https://en.wikipedia.org/wiki/Vector_space
+ */
 object VectorSpace {
   /**
    * Double-Int Vector Space
