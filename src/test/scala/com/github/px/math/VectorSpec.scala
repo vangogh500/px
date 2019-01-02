@@ -5,6 +5,7 @@
 package com.github.vangogh500
 package math
 
+import VectorSpace._
 import org.scalatest.FlatSpec
 
 class VectorSpec extends FlatSpec {

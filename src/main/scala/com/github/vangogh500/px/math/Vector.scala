@@ -1,19 +1,22 @@
 /**
- * Vector
+ * Spatial vector
+ * @see https://en.wikipedia.org/wiki/Euclidean_vector
  * @author Kai Matsuda
  */
 package com.github.vangogh500
 package math
 
 /**
- * Vector
+ * Spatial vector
+ * @see https://en.wikipedia.org/wiki/Euclidean_vector
  * @tparam F scalar type
  * @tparam V vector type
  */
-case class Vector[F,V](args: V*)(implicit val ev: VectorSpace[F,Vector[F,V]]) extends VectorLike[F, Vector[F,V]]
+case class Vector[F,V](args: V*)(implicit val ev: VectorSpace[F, Vector[F,V]])
 
 /**
- * Vector
+ * Spatial vector
+ * @see https://en.wikipedia.org/wiki/Euclidean_vector
  * @tparam T Numeric type the vector contains
  */
 object Vector {

@@ -40,6 +40,12 @@ trait VectorSpace[F, V] {
  * @see https://en.wikipedia.org/wiki/Vector_space
  */
 object VectorSpace {
+  implicit def toVectorLike[F, V](v1: V)(implicit ev: VectorSpace[F,V]): VectorLike[F,V] = new VectorLike[F,V] {
+    def unary_- : V = ev.negate(v1)
+    def +(v2: V): V = ev.plus(v1, v2)
+    def -(v2: V): V = ev.plus(v1, ev.negate(v2))
+    def *(c: F): V = ev.stimes(c, v1)
+  }
   /**
    * Double-Int Vector Space
    */
