@@ -6,7 +6,6 @@ package com.github.vangogh500
 package actor
 
 import entity.TimeReducable
-import entity.body.Body
 import akka.actor.{ Actor, Props }
 
 /**

@@ -7,18 +7,20 @@ package entity
 package body
 
 import math.Vec
+import attribute.{AttrTag, ScalarAttrTag, VectorAttrTag, ScalarAttr, VectorAttr}
 
-/**
- * Body
- * @param sAttrs Set of scalar attributes
- * @param vAttrs Set of vector attributes
- */
 case class Body(
-  sAttrs: Map[AttrQuality.Scalar, AttrQuantity[Double]],
-  vAttrs: Map[AttrQuality.Vector, AttrQuantity[Vec[Double,Double]]]
-) extends TimeReducable[Body] {
-  def timeReduce(dt: Double): Body = Body(
-    sAttrs.mapValues(attr => attr.timeReduce(dt)),
-    vAttrs.mapValues(attr => attr.timeReduce(dt))
+  scalar: Map[ScalarAttr, Vec[Double, Double]],
+  vector: Map[VectorAttr, Vec[Double, Vec[Double, Double]]]
+)
+
+object Body {
+  def apply(attrs: AttrTag*): Body = Body(
+    attrs.collect {
+      case ScalarAttrTag(a, q) => a -> q
+    }.toMap,
+    attrs.collect {
+      case VectorAttrTag(a, q) => a -> q
+    }.toMap
   )
 }

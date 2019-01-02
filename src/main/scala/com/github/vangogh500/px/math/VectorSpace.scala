@@ -50,7 +50,7 @@ object VectorSpace {
     def stimes(a: Double, v: Int): Int = a.toInt * v
   }
   /**
-   * Int-Double Vector Space
+   * Double-Double Vector Space
    */
   implicit val doubledoubleSpace: VectorSpace[Double, Double] = new VectorSpace[Double, Double] {
     def zero: Double = 0
