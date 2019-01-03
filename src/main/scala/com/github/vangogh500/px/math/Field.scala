@@ -45,14 +45,14 @@ trait Field[C] extends Any {
  * @tparam C Field type
  */
 object Field {
-  implicit class IntField(val c: Int) extends AnyVal with Field[Int] {
+  implicit val intField = new Field[Int] {
     def zero: Int = 0
     def negate(c: Int): Int = -c
     def reciprocal(c: Int): Int = 1/c
     def plus(c1: Int, c2: Int): Int = c1 + c2
     def times(c1: Int, c2: Int): Int = c1 * c2
   }
-  implicit class DoubleField(val c: Double) extends AnyVal with Field[Double] {
+  implicit val doubleField = new Field[Double] {
     def zero: Double = 0.0
     def negate(c: Double): Double = -c
     def reciprocal(c: Double): Double = 1/c
