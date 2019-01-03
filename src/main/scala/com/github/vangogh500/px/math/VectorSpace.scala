@@ -13,6 +13,10 @@ package math
  */
 trait VectorSpace[F, V] {
   /**
+   * Evidance that F is a scalar belonging to a field
+   */
+  def field: Field[F]
+  /**
    * Zero vector
    */
   def zero: V
@@ -45,23 +49,5 @@ object VectorSpace {
     def +(v2: V): V = ev.plus(v1, v2)
     def -(v2: V): V = ev.plus(v1, ev.negate(v2))
     def *(c: F): V = ev.stimes(c, v1)
-  }
-  /**
-   * Double-Int Vector Space
-   */
-  implicit val doubleintSpace: VectorSpace[Double, Int] = new VectorSpace[Double, Int] {
-    def zero: Int = 0
-    def negate(v: Int): Int = -v
-    def plus(v1: Int, v2: Int): Int = v1 + v2
-    def stimes(a: Double, v: Int): Int = a.toInt * v
-  }
-  /**
-   * Double-Double Vector Space
-   */
-  implicit val doubledoubleSpace: VectorSpace[Double, Double] = new VectorSpace[Double, Double] {
-    def zero: Double = 0
-    def negate(v: Double): Double = -v
-    def plus(v1: Double, v2: Double): Double = v1 + v2
-    def stimes(a: Double, v: Double): Double = a * v
   }
 }

@@ -17,7 +17,4 @@ case class Polynomial[F,V](cons: V)(
   implicit vs: VectorSpace[F,V],
   num: Numeric[F]
 ) {
-  def apply(x: F): F = {
-    vs * x
-  }
 }
