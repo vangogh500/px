@@ -4,6 +4,9 @@
  */
 package com.github.vangogh500
 package math
+package algebra
+
+import implicits._
 
 /**
  * Vector space
@@ -15,7 +18,7 @@ trait VectorSpace[F, V] {
   /**
    * Evidance that F is a scalar belonging to a field
    */
-  def field: Field[F]
+  implicit def field: Field[F]
   /**
    * Zero vector
    */
@@ -27,16 +30,16 @@ trait VectorSpace[F, V] {
   def negate(v: V): V
   /**
    * Sums 2 vectors
-   * @param v1 Vector to sum
-   * @param v2 Vector to sum
+   * @param v Vector to sum
+   * @param u Vector to sum
    */
-  def plus(v1: V, v2: V): V
+  def plus(v: V, u: V): V
   /**
    * Subtract 1 vector from another
-   * @param v1 Vector to subtract from
-   * @param v2 Vector to subtract with
+   * @param v Vector to subtract from
+   * @param u Vector to subtract with
    */
-  def minus(v1: V, v2: V): V = plus(v1, negate(v2))
+  def minus(v: V, u: V): V = plus(v, negate(u))
   /**
    * Multiplies a vector by a scalar
    * @param a Scalar to multiply

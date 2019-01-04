@@ -5,6 +5,7 @@
  */
 package com.github.vangogh500
 package math
+package algebra
 
 /**
  * Spatial vector
@@ -12,7 +13,7 @@ package math
  * @tparam F scalar type
  * @tparam V vector type
  */
-case class Vector[F](args: F*)(implicit val ev: VectorSpace[F, Vector[F]])
+case class Vector[F](args: F*)
 
 /**
  * Spatial vector
@@ -27,15 +28,19 @@ object Vector {
     case Vector(args @ _*) => Some(args)
   }
   /**
+   * Construct a vector using ints
+   */
+  def apply(arg: Int, args: Int*): Vector[Double] = Vector(arg.toDouble +: args.map(_.toDouble):_*)
+  /**
    * Vector-Vector Space
    */
   implicit def vectorSpace[F](implicit ev: Field[F]): VectorSpace[F, Vector[F]] = new VectorSpace[F, Vector[F]] {
-    def field: Field[F] = ev
+    implicit def field: Field[F] = ev
     def zero: Vector[F] = Vector()
-    def negate(v1: Vector[F]): Vector[F] = v1 match {
+    def negate(v: Vector[F]): Vector[F] = v match {
       case Vector(args1 @ _*) => Vector(args1.map(ev.negate(_)): _*)
     }
-    def plus(v1: Vector[F], v2: Vector[F]): Vector[F] = (v1, v2) match {
+    def plus(v: Vector[F], u: Vector[F]): Vector[F] = (v, u) match {
       case (Vector(args1 @ _*), Vector(args2 @ _*)) => Vector(
         args1.zipAll(args2, ev.zero, ev.zero).map {
           case (arg1, arg2) => ev.plus(arg1, arg2)
