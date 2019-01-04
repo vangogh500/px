@@ -12,16 +12,16 @@ package math
  */
 trait Field[C] extends Any {
   /**
-   * Zero element
+   * The zero element
    */
   def zero: C
   /**
-   * Negate an element in the field
+   * Additive inverse of an element in the field
    * @param c The element to negate
    */
   def negate(c: C): C
   /**
-   * Multiplicative inverse of the field
+   * Multiplicative inverse of an element in the field
    * @param c The element to inverse
    */
   def reciprocal(c: C): C
@@ -32,11 +32,23 @@ trait Field[C] extends Any {
    */
   def plus(c1: C, c2: C): C
   /**
+   * Subtracts one element from another
+   * @param c1 Element to subtract from
+   * @param c2 Element to subtract with
+   */
+  def minus(c1: C, c2: C): C = plus(c1, negate(c2))
+  /**
    * Multiplies 2 elements
    * @param c1 First element to multiply
    * @param c2 Second element to multiply
    */
   def times(c1: C, c2: C): C
+  /**
+   * Divides one element from another
+   * @param c1 Element to divide
+   * @param c2 Element to divide using
+   */
+  def div(c1: C, c2: C): C = times(c1, reciprocal(c2))
 }
 
 /**

@@ -5,8 +5,6 @@
 package com.github.vangogh500
 package math
 
-import VectorSpace._
-
 /**
  * Polynomial function
  * @see https://en.wikipedia.org/wiki/Polynomial
