@@ -23,10 +23,9 @@ object Euclid {
    * @param b Number to find GCD of
    * @throws ArithmeticException When both a and b are zero
    */
-  def apply(a: Int, b: Int): Int = (a, b) match {
-    case (0, 0) => throw new ArithmeticException("Euclid(0, 0) does not exist!")
-    case _ => gcd1(a, b)
-  }
+  def apply(a: Int, b: Int): Int = if(a == 0 && b == 0) {
+    throw new ArithmeticException("gcd(0,0) DNE")
+  } else gcd1(a, b)
   /**
    * Get the GCD for a pair of integers as an option
    * @param a Number to find GCD of
