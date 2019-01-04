@@ -25,7 +25,7 @@ trait AlgebraBehaviors { this: FlatSpec =>
       assert(f(270, 144) == 18)
     }
   }
-  def gcdOpt(f: (Int, Int) => Int) {
+  def gcdOpt(f: (Int, Int) => Option[Int]) {
     it should "return None on (0,0)" in {
       assert(f(0, 0) == None)
     }

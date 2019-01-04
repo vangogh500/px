@@ -13,4 +13,5 @@ import org.scalatest.FlatSpec
  */
 class EuclidSpec extends FlatSpec with AlgebraBehaviors {
   "Euclid's algorithm" should behave like gcd(Euclid.apply)
+  "Euclid's algorithm (option)" should behave like gcdOpt(Euclid.option)
 }
