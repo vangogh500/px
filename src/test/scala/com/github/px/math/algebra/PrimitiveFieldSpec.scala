@@ -6,7 +6,6 @@ package com.github.vangogh500
 package math
 package algebra
 
-import implicits._
 import org.scalatest.FlatSpec
 
 /**

@@ -9,64 +9,75 @@ package algebra
 /**
  * Field
  * @see https://en.wikipedia.org/wiki/Field_(mathematics)
- * @tparam C The type of the elements that this field is a set of
+ * @tparam T The type of the elements that this field is a set of
  */
-trait Field[C] extends Any {
+trait Field[T] extends Any {
   /**
    * The additive identity element
    */
-  def zero: C
+  def zero: T
   /**
    * The multiplicative identity element
    */
-  def one: C
+  def one: T
   /**
    * Additive inverse of an element in the field
    * @param c The element to negate
    */
-  def negate(a: C): C
+  def negate(a: T): T
   /**
    * Multiplicative inverse of an element in the field
    * @param c The element to inverse
    */
-  def reciprocal(a: C): C
+  def reciprocate(a: T): T
   /**
    * Sums 2 elements
    * @param a First element to sum
    * @param b Second element to sum
    */
-  def plus(a: C, b: C): C
+  def plus(a: T, b: T): T
   /**
    * Subtracts one element from another
    * @param a Element to subtract from
    * @param b Element to subtract with
    */
-  def minus(a: C, b: C): C = plus(a, negate(b))
+  def minus(a: T, b: T): T = plus(a, negate(b))
   /**
    * Multiplies 2 elements
    * @param a First element to multiply
    * @param b Second element to multiply
    */
-  def times(a: C, b: C): C
+  def times(a: T, b: T): T
   /**
    * Divides one element from another
    * @param a Element to divide
    * @param b Element to divide using
    */
-  def div(a: C, b: C): C = times(a, reciprocal(b))
+  def div(a: T, b: T): T = times(a, reciprocate(b))
+  /**
+   * Implicit rich wrappers for elements in the field
+   */
+  class Element(a: T) {
+    def unary_- : T = negate(a)
+    def reciprocal: T = reciprocate(a)
+    def +(b: T): T = plus(a, b)
+    def -(b: T): T = minus(a, b)
+    def *(b: T): T = times(a, b)
+    def /(b: T): T = div(a, b)
+  }
 }
 
 /**
  * Field
  * @see https://en.wikipedia.org/wiki/Field_(mathematics)
- * @tparam C Field type
+ * @tparam T Field type
  */
 object Field {
   implicit val doubleField = new Field[Double] {
     def zero: Double = 0.0
     def one: Double = 1.0
     def negate(a: Double): Double = -a
-    def reciprocal(a: Double): Double = 1/a
+    def reciprocate(a: Double): Double = 1/a
     def plus(a: Double, b: Double): Double = a + b
     def times(a: Double, b: Double): Double = a * b
   }

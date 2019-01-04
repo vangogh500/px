@@ -14,11 +14,11 @@ import implicits._
  * @tparam F Scalar type
  * @tparam V Vector type
  */
-trait VectorSpace[F, V] {
+trait VectorSpace[F, V] extends Any {
   /**
    * Evidance that F is a scalar belonging to a field
    */
-  implicit def field: Field[F]
+  def field: Field[F]
   /**
    * Zero vector
    */
@@ -46,4 +46,19 @@ trait VectorSpace[F, V] {
    * @param v Vector to multiply
    */
   def stimes(a: F, v: V): V
+  implicit class FieldElement(a: F) extends field.Element {
+    def unary_- : F = field.negate(a)
+    def reciprocal: F = field.reciprocate(a)
+    def +(b: F): F = field.plus(a, b)
+    def -(b: F): F = field.minus(a, b)
+    def *(b: F): F = field.times(a, b)
+    def *(v: => V): V = stimes(a,v)
+    def /(b: F): F = field.div(a, b)
+  }
+  implicit class VectorSpaceVector(v: V) {
+    def unary_- : V = negate(v)
+    def +(u: V): V = plus(v, u)
+    def -(u: V): V = minus(v, u)
+    def *(c: F): V = stimes(c, v)
+  }
 }

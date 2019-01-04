@@ -6,7 +6,6 @@ package com.github.vangogh500
 package math
 package algebra
 
-import implicits._
 import org.scalatest.FlatSpec
 
 /**
@@ -14,6 +13,7 @@ import org.scalatest.FlatSpec
  */
 trait FieldBehaviors { this: FlatSpec =>
   def axioms[F](a: F, b: F, c: F)(implicit ev: Field[F]) {
+    import ev._
     it should "have associative and communative addition" in {
       assert((a + b) + c == a + (b + c))
       assert((a + c) + b == a + (c + b))

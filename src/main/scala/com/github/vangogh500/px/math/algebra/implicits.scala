@@ -9,7 +9,7 @@ package algebra
 package object implicits {
   implicit class FieldElement[F](a: F)(implicit ev: Field[F]) {
     def unary_- : F = ev.negate(a)
-    def reciprocal: F = ev.reciprocal(a)
+    def reciprocal: F = ev.reciprocate(a)
     def +(b: F): F = ev.plus(a, b)
     def -(b: F): F = ev.minus(a, b)
     def *(b: F): F = ev.times(a, b)
