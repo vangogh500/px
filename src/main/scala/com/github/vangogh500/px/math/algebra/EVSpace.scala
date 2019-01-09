@@ -1,5 +1,5 @@
 /**
- * Vector Space
+ * Euclidean Vector Space
  * @author Kai Matsuda
  */
 package com.github.vangogh500
@@ -7,16 +7,16 @@ package math
 package algebra
 
 /**
- * Vector space
- * @see https://en.wikipedia.org/wiki/Vector_space
+ * Euclidean Vector space
+ * @see https://en.wikipedia.org/wiki/Euclidean_space
  * @tparam F Scalar type
  * @tparam V Vector type
  */
-trait VectorSpace[F, V] extends Any {
+trait EVSpace[F, V] extends Any {
   /**
    * Evidance that F is a scalar belonging to a field
    */
-  def field: Field[F]
+  def field: OrderedField[F]
   /**
    * Zero vector
    */
@@ -116,4 +116,33 @@ trait VectorSpace[F, V] extends Any {
    * Implicit decoration of scalars using operators defined in FieldOps
    */
   implicit def mkFieldOps(a: F): FieldOps = new FieldOps(a)
+}
+
+object EVSpace {
+  implicit def tuple2[F](implicit ev: OrderedField[F]): EVSpace[F,(F,F)] = new EVSpace[F,(F,F)] {
+    def field: OrderedField[F] = ev
+    def zero: (F,F) = (ev.zero, ev.zero)
+    def negate(v: (F,F)): (F,F) = v match {
+      case (x, y) => (-x, -y)
+    }
+    def plus(v: (F,F), u: (F,F)): (F,F) = (v, u) match {
+      case ((x1,y1), (x2,y2)) => (x1 + x2, y1 + y2)
+    }
+    def stimes(a: F, v: (F,F)): (F,F) = v match {
+      case (x, y) => (a * x, a * y)
+    }
+  }
+  implicit def tuple3[F](implicit ev: OrderedField[F]): EVSpace[F,(F,F,F)] = new EVSpace[F,(F,F,F)] {
+    def field: OrderedField[F] = ev
+    def zero: (F,F,F) = (ev.zero, ev.zero, ev.zero)
+    def negate(v: (F,F,F)): (F,F,F) = v match {
+      case (x, y, z) => (-x, -y, -z)
+    }
+    def plus(v: (F,F,F), u: (F,F,F)): (F,F,F) = (v, u) match {
+      case ((x1,y1,z1), (x2,y2,z2)) => (x1 + x2, y1 + y2, z1 + z2)
+    }
+    def stimes(a: F, v: (F,F,F)): (F,F,F) = v match {
+      case (x, y, z) => (a * x, a * y, a * z)
+    }
+  }
 }

@@ -101,6 +101,9 @@ trait Field[T] extends Any {
  * @tparam T Field type
  */
 object Field {
+  /**
+   * Field for Double
+   */
   implicit object Double extends Field[Double] {
     def zero: Double = 0.0
     def one: Double = 1.0

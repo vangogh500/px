@@ -13,8 +13,15 @@ package algebra
  */
 trait OrderedField[T] extends Field[T] with Ordering[T]
 
+/**
+ * Ordered Field
+ * @see https://en.wikipedia.org/wiki/Ordered_field
+ */
 object OrderedField {
-  implicit object DoubleOrderedField extends OrderedField[Double] {
+  /**
+   * OrderedField for Double
+   */
+  implicit object Double extends OrderedField[Double] {
     def zero: Double = 0.0
     def one: Double = 1.0
     def negate(a: Double): Double = -a

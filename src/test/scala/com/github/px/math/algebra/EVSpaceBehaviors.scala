@@ -1,5 +1,5 @@
 /**
- * Vector Space Behaviors
+ * Euclidean Vector Space Behaviors
  * @author Kai Matsuda
  */
 package com.github.vangogh500
@@ -9,10 +9,10 @@ package algebra
 import org.scalatest.FlatSpec
 
 /**
- * Vector Space Behaviors
+ * Euclidean Vector Space Behaviors
  */
-trait VectorSpaceBehaviors { this: FlatSpec =>
-  def vectorSpaceAxioms[F,V](v: V, u: V, w: V, a: F, b: F)(implicit ev: VectorSpace[F,V]) {
+trait EVSpaceBehaviors { this: FlatSpec =>
+  def evSpaceAxioms[F,V](v: V, u: V, w: V, a: F, b: F)(implicit ev: EVSpace[F,V]) {
     import ev._
     it should "have associative and communative addition" in {
       assert((v + u) + w == v + (u + w))
