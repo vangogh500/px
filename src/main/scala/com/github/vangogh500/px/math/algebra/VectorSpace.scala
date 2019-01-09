@@ -6,8 +6,6 @@ package com.github.vangogh500
 package math
 package algebra
 
-import implicits._
-
 /**
  * Vector space
  * @see https://en.wikipedia.org/wiki/Vector_space

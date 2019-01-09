@@ -12,7 +12,7 @@ import org.scalatest.FlatSpec
  * Vector Space Behaviors
  */
 trait VectorSpaceBehaviors { this: FlatSpec =>
-  def axioms[F,V](v: V, u: V, w: V, a: F, b: F)(implicit ev: VectorSpace[F,V]) {
+  def vectorSpaceAxioms[F,V](v: V, u: V, w: V, a: F, b: F)(implicit ev: VectorSpace[F,V]) {
     import ev._
     it should "have associative and communative addition" in {
       assert((v + u) + w == v + (u + w))

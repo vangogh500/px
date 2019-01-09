@@ -1,5 +1,5 @@
 /**
- * Field Specs
+ * Primitive Field Specs
  * @author Kai Matsuda
  */
 package com.github.vangogh500
@@ -12,5 +12,5 @@ import org.scalatest.FlatSpec
  * Spec for primitive fields
  */
 class PrimitiveFieldSpec extends FlatSpec with FieldBehaviors {
-  "Field[Double]" should behave like axioms(1.25, 3.3, 42.0)
+  "Field[Double]" should behave like fieldAxioms(1.25, 3.3, 42.0)
 }

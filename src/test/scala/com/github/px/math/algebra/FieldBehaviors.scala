@@ -12,7 +12,7 @@ import org.scalatest.FlatSpec
  * Field Behaviors
  */
 trait FieldBehaviors { this: FlatSpec =>
-  def axioms[F](a: F, b: F, c: F)(implicit ev: Field[F]) {
+  def fieldAxioms[F](a: F, b: F, c: F)(implicit ev: Field[F]) {
     import ev._
     it should "have associative and communative addition" in {
       assert((a + b) + c == a + (b + c))

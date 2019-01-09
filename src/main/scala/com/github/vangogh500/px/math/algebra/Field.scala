@@ -101,7 +101,7 @@ trait Field[T] extends Any {
  * @tparam T Field type
  */
 object Field {
-  implicit val doubleField = new Field[Double] {
+  implicit object Double extends Field[Double] {
     def zero: Double = 0.0
     def one: Double = 1.0
     def negate(a: Double): Double = -a
