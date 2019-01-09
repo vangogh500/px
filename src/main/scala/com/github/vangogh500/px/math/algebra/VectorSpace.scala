@@ -46,19 +46,76 @@ trait VectorSpace[F, V] extends Any {
    * @param v Vector to multiply
    */
   def stimes(a: F, v: V): V
-  implicit class FieldElement(a: F) extends field.Element {
-    def unary_- : F = field.negate(a)
-    def reciprocal: F = field.reciprocate(a)
-    def +(b: F): F = field.plus(a, b)
-    def -(b: F): F = field.minus(a, b)
-    def *(b: F): F = field.times(a, b)
-    def *(v: => V): V = stimes(a,v)
-    def /(b: F): F = field.div(a, b)
-  }
-  implicit class VectorSpaceVector(v: V) {
+  /**
+   * Rich ops wrapper for vectors
+   * @param v vector
+   */
+  class VectorOps(v: V) {
+    /**
+     * Negate
+     */
     def unary_- : V = negate(v)
+    /**
+     * Add vector
+     * @param u vector to add
+     */
     def +(u: V): V = plus(v, u)
+    /**
+     * Subtract vector
+     * @param u vector to subtract with
+     */
     def -(u: V): V = minus(v, u)
+    /**
+     * Multiply by a scalar
+     * @param c scalar to multiply with
+     */
     def *(c: F): V = stimes(c, v)
   }
+  /**
+   * Implicit decoration of vectors using operators defined in VectorOps
+   */
+  implicit def mkVectorOps(v: V): VectorOps = new VectorOps(v)
+  /**
+   * Rich ops wrapper for scalars
+   * @param f scalar
+   */
+  class FieldOps(a: F) {
+    /**
+     * Negate (additive inverse)
+     */
+    def unary_- : F = field.negate(a)
+    /**
+     * Reciprocal (multiplicative inverse)
+     */
+    def reciprocal: F = field.reciprocate(a)
+    /**
+     * Add scalar
+     * @param b scalar to add
+     */
+    def +(b: F): F = field.plus(a, b)
+    /**
+     * Subtract scalar
+     * @param b scalar to subtract with
+     */
+    def -(b: F): F = field.minus(a, b)
+    /**
+     * Multiply scalar
+     * @param b scalar to multiply
+     */
+    def *(b: F): F = field.times(a, b)
+    /**
+     * Divide by scalar
+     * @param b scalar to divide by
+     */
+    def /(b: F): F = field.div(a, b)
+    /**
+     * Multiply vector
+     * @param v vector to multiply
+     */
+    def *(v: => V): V = stimes(a,v)
+  }
+  /**
+   * Implicit decoration of scalars using operators defined in FieldOps
+   */
+  implicit def mkFieldOps(a: F): FieldOps = new FieldOps(a)
 }

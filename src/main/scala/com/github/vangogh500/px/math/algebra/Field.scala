@@ -54,17 +54,45 @@ trait Field[T] extends Any {
    * @param b Element to divide using
    */
   def div(a: T, b: T): T = times(a, reciprocate(b))
+
   /**
-   * Implicit rich wrappers for elements in the field
+   * Rich ops wrapper for elements
+   * @param a field element
    */
-  class Element(a: T) {
+  class Ops(a: T) {
+    /**
+     * Negate (additive inverse)
+     */
     def unary_- : T = negate(a)
+    /**
+     * Reciprocal (multiplicative inverse)
+     */
     def reciprocal: T = reciprocate(a)
+    /**
+     * Add
+     * @param b element to add
+     */
     def +(b: T): T = plus(a, b)
+    /**
+     * Subtract
+     * @param b element to divide with
+     */
     def -(b: T): T = minus(a, b)
+    /**
+     * Multiply
+     * @param b element to multiply by
+     */
     def *(b: T): T = times(a, b)
+    /**
+     * Divide
+     * @param b element to divide by
+     */
     def /(b: T): T = div(a, b)
   }
+  /**
+   * Implicit decoration of elements using operators defined in Ops
+   */
+  implicit def mkOps(a: T): Ops = new Ops(a)
 }
 
 /**
