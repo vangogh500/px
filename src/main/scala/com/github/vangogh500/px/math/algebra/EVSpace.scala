@@ -102,6 +102,11 @@ trait EVSpace[F, V] extends Any {
      */
     def *(b: F): F = field.times(a, b)
     /**
+     * Raise to an exponent
+     * @param b exponent to raise to
+     */
+    def **(b: Int): F = field.pow(a, b)
+    /**
      * Divide by scalar
      * @param b scalar to divide by
      */
@@ -118,7 +123,15 @@ trait EVSpace[F, V] extends Any {
   implicit def mkFieldOps(a: F): FieldOps = new FieldOps(a)
 }
 
+/**
+ * Euclidean Vector space
+ * @see https://en.wikipedia.org/wiki/Euclidean_space
+ */
 object EVSpace {
+  /**
+   * Tuple2 EVSpace
+   * Represents a 2D vector (x, y)
+   */
   implicit def tuple2[F](implicit ev: OrderedField[F]): EVSpace[F,(F,F)] = new EVSpace[F,(F,F)] {
     def field: OrderedField[F] = ev
     def zero: (F,F) = (ev.zero, ev.zero)
@@ -132,6 +145,10 @@ object EVSpace {
       case (x, y) => (a * x, a * y)
     }
   }
+  /**
+   * Tuple3 EVSpace
+   * Represents a 3D vector (x, y, z)
+   */
   implicit def tuple3[F](implicit ev: OrderedField[F]): EVSpace[F,(F,F,F)] = new EVSpace[F,(F,F,F)] {
     def field: OrderedField[F] = ev
     def zero: (F,F,F) = (ev.zero, ev.zero, ev.zero)

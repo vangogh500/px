@@ -49,5 +49,14 @@ trait FieldBehaviors { this: FlatSpec =>
       assert(b * (a + c) == (b * a) + (b * c))
       assert(c * (a + b) == (c * a) + (c * b))
     }
+    it should "pow correctly" in {
+      assert(ev.one == a ** 0)
+      assert(ev.one == b ** 0)
+      assert(ev.one == c ** 0)
+      assert(ev.one == a ** 0)
+      assert(a * a * a == a ** 3)
+      assert(b.reciprocal * b.reciprocal * b.reciprocal == b ** -3)
+      assert(c == c ** 1)
+    }
   }
 }

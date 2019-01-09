@@ -49,6 +49,18 @@ trait Field[T] extends Any {
    */
   def times(a: T, b: T): T
   /**
+   * Raise an element by an int
+   * @param a Element to raise by b
+   * @param b Number to raise a by
+   */
+  def pow(a: T, b: Int): T = if(b == 0) {
+    one
+  } else if(b > 0) {
+    times(a, pow(a, b - 1))
+  } else {
+    times(a.reciprocal, pow(a, b + 1))
+  }
+  /**
    * Divides one element from another
    * @param a Element to divide
    * @param b Element to divide using
@@ -59,7 +71,7 @@ trait Field[T] extends Any {
    * Rich ops wrapper for elements
    * @param a field element
    */
-  class Ops(a: T) {
+  implicit class Ops(a: T) {
     /**
      * Negate (additive inverse)
      */
@@ -84,15 +96,16 @@ trait Field[T] extends Any {
      */
     def *(b: T): T = times(a, b)
     /**
+     * Raise to an exponent
+     * @param b exponent to raise to
+     */
+    def **(b: Int): T = pow(a, b)
+    /**
      * Divide
      * @param b element to divide by
      */
     def /(b: T): T = div(a, b)
   }
-  /**
-   * Implicit decoration of elements using operators defined in Ops
-   */
-  implicit def mkOps(a: T): Ops = new Ops(a)
 }
 
 /**
