@@ -7,16 +7,16 @@ package math
 package algebra
 
 /**
- * Euclidean Vector space
+ * Vector space
  * @see https://en.wikipedia.org/wiki/Euclidean_space
  * @tparam F Scalar type
  * @tparam V Vector type
  */
-trait EVSpace[F, V] extends Any {
+trait VSpace[F, V] extends Any {
   /**
    * Evidance that F is a scalar belonging to a field
    */
-  def field: OrderedField[F]
+  def field: Field[F]
   /**
    * Zero vector
    */
@@ -48,7 +48,7 @@ trait EVSpace[F, V] extends Any {
    * Rich ops wrapper for vectors
    * @param v vector
    */
-  class VectorOps(v: V) {
+  implicit class VectorOps(v: V) {
     /**
      * Negate
      */
@@ -70,14 +70,10 @@ trait EVSpace[F, V] extends Any {
     def *(c: F): V = stimes(c, v)
   }
   /**
-   * Implicit decoration of vectors using operators defined in VectorOps
-   */
-  implicit def mkVectorOps(v: V): VectorOps = new VectorOps(v)
-  /**
    * Rich ops wrapper for scalars
    * @param f scalar
    */
-  class FieldOps(a: F) {
+  implicit class FieldOps(a: F) {
     /**
      * Negate (additive inverse)
      */
@@ -117,49 +113,63 @@ trait EVSpace[F, V] extends Any {
      */
     def *(v: => V): V = stimes(a,v)
   }
-  /**
-   * Implicit decoration of scalars using operators defined in FieldOps
-   */
-  implicit def mkFieldOps(a: F): FieldOps = new FieldOps(a)
 }
 
 /**
- * Euclidean Vector space
+ * Vector space
  * @see https://en.wikipedia.org/wiki/Euclidean_space
  */
-object EVSpace {
+object VSpace {
   /**
-   * Tuple2 EVSpace
-   * Represents a 2D vector (x, y)
+   * Implicit conversion from a field to vector space
    */
-  implicit def tuple2[F](implicit ev: OrderedField[F]): EVSpace[F,(F,F)] = new EVSpace[F,(F,F)] {
-    def field: OrderedField[F] = ev
-    def zero: (F,F) = (ev.zero, ev.zero)
-    def negate(v: (F,F)): (F,F) = v match {
-      case (x, y) => (-x, -y)
+  implicit def field[F](implicit ev: Field[F]): VSpace[F,F] = new VSpace[F, F] {
+    def field: Field[F] = ev
+    def zero: F = ev.zero
+    def negate(v: F): F = ev.negate(v)
+    def plus(v: F, u: F): F = ev.plus(v, u)
+    def stimes(a: F, v: F): F = ev.times(a, v)
+  }
+  /**
+   * Implicit vspace for tuple2s of vectors
+   */
+  implicit def tuple2[F,V](implicit ev: VSpace[F, V]): VSpace[F,(V,V)] = new VSpace[F,(V,V)] {
+    def field: Field[F] = ev.field
+    def zero: (V,V) = (ev.zero, ev.zero)
+    def negate(v: (V,V)): (V,V) = v match {
+      case (x, y) => (ev.negate(x), ev.negate(y))
     }
-    def plus(v: (F,F), u: (F,F)): (F,F) = (v, u) match {
-      case ((x1,y1), (x2,y2)) => (x1 + x2, y1 + y2)
+    def plus(v: (V,V), u: (V,V)): (V,V) = (v, u) match {
+      case ((x1,y1), (x2,y2)) => (ev.plus(x1,x2), ev.plus(y1, y2))
     }
-    def stimes(a: F, v: (F,F)): (F,F) = v match {
-      case (x, y) => (a * x, a * y)
+    def stimes(a: F, v: (V,V)): (V,V) = v match {
+      case (x, y) => (ev.stimes(a, x), ev.stimes(a, y))
     }
   }
   /**
-   * Tuple3 EVSpace
-   * Represents a 3D vector (x, y, z)
+   * Implicit vspace for tuple3s of vectors
    */
-  implicit def tuple3[F](implicit ev: OrderedField[F]): EVSpace[F,(F,F,F)] = new EVSpace[F,(F,F,F)] {
-    def field: OrderedField[F] = ev
-    def zero: (F,F,F) = (ev.zero, ev.zero, ev.zero)
-    def negate(v: (F,F,F)): (F,F,F) = v match {
-      case (x, y, z) => (-x, -y, -z)
+  implicit def tuple3[F,V](implicit ev: VSpace[F, V]): VSpace[F,(V,V,V)] = new VSpace[F,(V,V,V)] {
+    def field: Field[F] = ev.field
+    def zero: (V,V,V) = (ev.zero, ev.zero, ev.zero)
+    def negate(v: (V,V,V)): (V,V,V) = v match {
+      case (x, y, z) => (ev.negate(x), ev.negate(y), ev.negate(z))
     }
-    def plus(v: (F,F,F), u: (F,F,F)): (F,F,F) = (v, u) match {
-      case ((x1,y1,z1), (x2,y2,z2)) => (x1 + x2, y1 + y2, z1 + z2)
+    def plus(v: (V,V,V), u: (V,V,V)): (V,V,V) = (v, u) match {
+      case ((x1,y1,z1), (x2,y2,z2)) => (ev.plus(x1, x2), ev.plus(y1, y2), ev.plus(z1, z2))
     }
-    def stimes(a: F, v: (F,F,F)): (F,F,F) = v match {
-      case (x, y, z) => (a * x, a * y, a * z)
+    def stimes(a: F, v: (V,V,V)): (V,V,V) = v match {
+      case (x, y, z) => (ev.stimes(a, x), ev.stimes(a, y), ev.stimes(a, z))
     }
+  }
+  /**
+   * Implicit vspace for functions of fields
+   */
+  implicit def fieldFunc1[F](implicit ev: Field[F]): VSpace[F, F => F] = new VSpace[F, F => F] {
+    def field: Field[F] = ev
+    def zero: F => F = (_ => ev.zero)
+    def negate(f: F => F): F => F = (x => ev.negate(f(x)))
+    def plus(f: F => F, g: F => F): F => F = (x => f(x) + g(x))
+    def stimes(a: F, f: F => F): F => F = (x => ev.times(a,f(x)))
   }
 }

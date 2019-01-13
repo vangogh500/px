@@ -12,7 +12,7 @@ package algebra
  * @see https://en.wikipedia.org/wiki/Polynomial
  * @param coeffs the coefficients of the polynomial (a, b, c...)
  */
-case class Poly[F](coeffs: F*)(implicit ev: OrderedField[F]) {
+case class Poly[F](coeffs: F*)(implicit ev: Field[F]) extends (F => F) {
   import ev._
   override def equals(that: Any): Boolean = that match {
     case Poly(coeffs2 @ _*) => coeffs.zipAll(coeffs2, zero, zero).forall {
@@ -33,10 +33,10 @@ case class Poly[F](coeffs: F*)(implicit ev: OrderedField[F]) {
  */
 object Poly {
   /**
-   * EVSpace for Polynomials
+   * VSpace for Polynomials
    */
-  implicit def evSpace[F](implicit ev: OrderedField[F]): EVSpace[F, Poly[F]] = new EVSpace[F, Poly[F]]{
-    def field: OrderedField[F] = ev
+  implicit def vspace[F](implicit ev: Field[F]): VSpace[F, Poly[F]] = new VSpace[F, Poly[F]] {
+    def field: Field[F] = ev
     def zero: Poly[F] = Poly()
     def negate(f: Poly[F]): Poly[F] = f match {
       case Poly(coeffs @ _*) => Poly(coeffs.map(ev.negate(_)): _*)
@@ -51,4 +51,16 @@ object Poly {
       case Poly(coeffs @ _*) => Poly(coeffs.map(ev.times(_,c)): _*)
     }
   }
+  /**
+   * Implicit conversion to work with vector2 valued functions
+   */
+   implicit def vector2ValuedFunction[F](v: (Poly[F], Poly[F])) = v match {
+     case (p1, p2) => (x: F) => (p1(x), p2(x))
+   }
+   /**
+    * Implicit conversion to work with vector3 valued functions
+    */
+    implicit def vector3ValuedFunction[F](v: (Poly[F], Poly[F], Poly[F])) = v match {
+      case (p1, p2, p3) => (x: F) => (p1(x), p2(x), p3(x))
+    }
 }
