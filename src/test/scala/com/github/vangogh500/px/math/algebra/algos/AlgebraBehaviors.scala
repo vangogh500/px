@@ -5,7 +5,7 @@
 package com.github.vangogh500
 package math
 package algebra
-package algo
+package algos
 
 import org.scalatest.FlatSpec
 

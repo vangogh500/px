@@ -14,6 +14,9 @@ package algebra
  */
 case class Poly[F](coeffs: F*)(implicit ev: Field[F]) extends (F => F) {
   import ev._
+  /**
+   * Custom equality
+   */
   override def equals(that: Any): Boolean = that match {
     case Poly(coeffs2 @ _*) => coeffs.zipAll(coeffs2, zero, zero).forall {
       case (a, b) => a == b
@@ -32,6 +35,7 @@ case class Poly[F](coeffs: F*)(implicit ev: Field[F]) extends (F => F) {
  * @see https://en.wikipedia.org/wiki/Polynomial
  */
 object Poly {
+  def unapplySeq[F](py: Poly[F]): Option[Seq[F]] = Some(py.coeffs)
   /**
    * VSpace for Polynomials
    */
@@ -60,7 +64,7 @@ object Poly {
    /**
     * Implicit conversion to work with vector3 valued functions
     */
-    implicit def vector3ValuedFunction[F](v: (Poly[F], Poly[F], Poly[F])) = v match {
-      case (p1, p2, p3) => (x: F) => (p1(x), p2(x), p3(x))
-    }
+   implicit def vector3ValuedFunction[F](v: (Poly[F], Poly[F], Poly[F])) = v match {
+     case (p1, p2, p3) => (x: F) => (p1(x), p2(x), p3(x))
+   }
 }
