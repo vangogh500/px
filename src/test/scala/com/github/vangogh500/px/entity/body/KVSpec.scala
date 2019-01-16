@@ -6,7 +6,7 @@ package com.github.vangogh500
 package entity
 package body
 
-import math.algebra.{VSpaceBehaviors}
+import math.algebra.VSpaceBehaviors
 import org.scalatest.FlatSpec
 
 /**
@@ -28,12 +28,12 @@ class KVSpec extends FlatSpec with VSpaceBehaviors with TimeReducableBehaviors {
     KV(1.0, 2.0, 3.0),
     4, KV(1 + 8 + 16 * 1.5, 14, 3),
     6.5, KV(1 + 13 + (Math.pow(6.5,2) * 3 / 2), 2 + 3 * 6.5, 3.0))
-  "(KV, KV)" should behave like timeReducable(
+  /*"(KV, KV)" should behave like timeReducable(
     (KV(1.0, 2.0, 3.0), KV(3.0, 2.0, 1.0)),
     4, (KV(1 + 8 + 16 * 1.5, 14, 3), KV(3 + 8 + 8, 6, 1)),
     0, (KV(1, 2, 3), KV(3, 2, 1)))
   "(KV, KV, KV)" should behave like timeReducable(
     (KV(1.0, 2.0, 3.0), KV(0,0,0), KV(3.0, 2.0, 1.0)),
     4, (KV(1 + 8 + 16 * 1.5, 14, 3), KV(0,0,0), KV(3 + 8 + 8, 6, 1)),
-    0, (KV(1, 2, 3), KV(0,0,0), KV(3, 2, 1)))
+    0, (KV(1, 2, 3), KV(0,0,0), KV(3, 2, 1)))*/
 }

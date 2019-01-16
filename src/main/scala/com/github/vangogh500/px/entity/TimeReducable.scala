@@ -9,14 +9,10 @@ package entity
  * Time reducable
  * @tparam Repr The type of the actual time reducable entity
  */
-trait TimeReducable[T] {
+trait TimeReducable[Repr <: TimeReducable[Repr]] {
   /**
    * Time reduce
    * @param dt Time elapsed
    */
-  def timeReduce(dt: Double, entity: T): T
-
-  implicit class Ops(entity: T) {
-    def tReduce(dt: Double): T = timeReduce(dt, entity)
-  }
+  def tReduce(dt: Double): Repr
 }
